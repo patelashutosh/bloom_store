@@ -1,0 +1,102 @@
+# Bloom AI E-commerce Development Rules
+
+## Project Context
+Building a modern e-commerce application using Next.js, TypeScript, and modern web technologies. Follow business requirements specified in the development prompts for market-specific details.
+
+## Next.js & React Best Practices
+
+### Component Architecture
+- Use Server Components by default for data fetching and static content
+- Use Client Components ('use client') ONLY when you need:
+  - React hooks (useState, useEffect, etc.)
+  - Browser APIs (localStorage, sessionStorage, etc.) 
+  - Event handlers (onClick, onSubmit, etc.)
+  - Client-side libraries (like next-auth/react)
+- Always prefer Server Components unless client-side interactivity is required
+
+### Authentication Patterns
+- For NextAuth.js v5: use JWT strategy for sessions
+- Client components should use useSession() from 'next-auth/react'
+- Server components should use auth() from root auth configuration
+- Always implement proper session callbacks to ensure user data displays
+- Protect sensitive routes using middleware, not component-level checks
+
+### State Management
+- For shopping cart: prefer persistent state that survives page refreshes
+- Avoid getter-based computed properties in state stores
+- Always handle hydration mismatches with proper mounting checks
+- Update all related state fields together, not separately
+
+### Database & Prisma
+- Use exact field names from your schema (check relations and field mappings)
+- Always use Decimal type for monetary values in database
+- Include proper error handling for all database operations
+- When using upsert operations, populate both create AND update blocks
+- Use proper Prisma includes for related data
+
+## Common Pitfalls to Avoid
+
+### Currency & Formatting
+- Use the currency symbol specified in business requirements consistently
+- Format monetary values consistently throughout the app
+- Include all taxes and fees as specified in business requirements
+
+### Authentication Issues
+- Don't make header/navigation components Server Components if they need to show auth state
+- Always configure session and JWT callbacks properly
+- Don't forget to wrap app in SessionProvider for client-side auth
+
+### State Management Issues  
+- Don't use computed getters for cart totals - use actual state values
+- Always handle client-server hydration properly
+- Don't forget to persist cart state to localStorage or similar
+
+### Database Issues
+- Don't assume field names - check your Prisma schema carefully
+- Always populate update blocks in upsert operations
+- Use proper TypeScript types to avoid 'any' errors
+
+### Image Optimization
+- Configure Next.js image domains for external images (like Unsplash)
+- Always use Next.js Image component for optimization
+- Include proper alt text and sizing attributes
+
+### Mobile & Responsive Design
+- Always use mobile-first approach
+- Test navigation and forms on mobile devices
+- Ensure touch targets are large enough (minimum 44px)
+- Check that modals and dropdowns work on mobile
+
+## Code Quality Standards
+- Use TypeScript properly - avoid 'any' types
+- Include proper error handling and loading states
+- Write accessible HTML (proper headings, labels, alt text)
+- Use semantic HTML elements where appropriate
+- Include proper form validation and error messages
+
+## Performance Considerations
+- Optimize images and use proper loading states
+- Minimize client-side JavaScript bundles
+- Use proper caching strategies
+- Handle loading and error states gracefully
+
+## Security Best Practices
+- Validate all user inputs
+- Use server actions for sensitive operations
+- Protect API routes and server actions with authentication checks
+- Never expose sensitive data in client-side code
+- Use proper CORS and security headers
+
+## Testing & Debugging
+- Test the complete user flow from browsing to order completion
+- Verify all calculations (tax, shipping, totals) are correct
+- Test authentication flow thoroughly
+- Check mobile experience on actual devices
+- Test edge cases (empty cart, failed payments, etc.)
+
+## Development Workflow
+- Set up proper environment variables for all services
+- Use TypeScript strict mode and fix all type errors
+- Test each feature thoroughly before moving to next step
+- Keep components focused and reusable
+- Document any complex business logic

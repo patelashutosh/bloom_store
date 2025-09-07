@@ -4,10 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
-import { AddToCartButton } from '@/components/cart/AddToCartButton'
 import { db } from '@/lib/db'
 import Image from 'next/image'
-import { Heart, Star } from 'lucide-react'
+import { Heart, ShoppingCart, Star } from 'lucide-react'
 
 // Product type for type safety
 type Product = {
@@ -114,14 +113,10 @@ function ProductCard({ product }: { product: Product }) {
         <div className="text-2xl font-bold text-gray-900">
           ₹{price.toFixed(2)}
         </div>
-        <AddToCartButton 
-          product={{
-            id: product.id,
-            name: product.name,
-            price: price,
-            imageUrl: product.imageUrl
-          }}
-        />
+        <Button className="bg-pink-600 hover:bg-pink-700 text-white px-6">
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          Add to Cart
+        </Button>
       </CardFooter>
     </Card>
   )
@@ -175,7 +170,7 @@ async function ProductGrid() {
   )
 }
 
-export default function Home() {
+export default function StorePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
       {/* Hero Section */}
@@ -183,7 +178,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
-            Bloom AI Flower Shop
+            Beautiful Flowers
           </h1>
           <p className="text-xl text-gray-700 max-w-2xl mx-auto">
             Discover our handpicked collection of fresh, beautiful flowers perfect for every occasion
