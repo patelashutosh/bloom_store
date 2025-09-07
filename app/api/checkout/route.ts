@@ -29,18 +29,24 @@ export async function POST(request: NextRequest) {
       return sum + (item.price * item.quantity)
     }, 0)
 
-    // Create order in database
+    // Create order in database  
     const order = await db.order.create({
       data: {
-        userId: session.user.id,
+        user: { connect: { id: session.user.id } },
+        subtotal: total * 0.85, // Approximate subtotal (before tax)
+        tax: total * 0.15, // Approximate tax
+        shippingCost: 0, // Free shipping for this demo
         total,
         status: 'PENDING',
-        shippingAddress: JSON.stringify(shippingAddress),
+        shippingAddress: shippingAddress,
         items: {
           create: items.map((item: any) => ({
-            productId: item.productId,
+            productId: item.id,
             quantity: item.quantity,
-            price: item.price,
+            unitPrice: item.price,
+            totalPrice: item.price * item.quantity,
+            productName: item.name,
+            productImage: item.imageUrl,
           }))
         }
       },
